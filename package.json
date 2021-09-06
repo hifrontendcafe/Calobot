@@ -14,7 +14,8 @@
     "syncDb": "npm run typeorm schema:sync",
     "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
     "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint src/**/*.ts --fix"
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "cmd:generate": "node ./src/lib/command/generate.js"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
   "devDependencies": {
     "@types/node": "^16.7.10",
     "@types/reflect-metadata": "^0.1.0",
+    "@types/yargs": "^17.0.2",
     "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.30.0",
     "eslint": "^7.32.0",
@@ -43,16 +45,19 @@
   "dependencies": {
     "@discordjs/builders": "^0.6.0",
     "@discordjs/rest": "^0.1.0-canary.0",
+    "commander": "^8.1.0",
     "discord-api-types": "^0.22.0",
     "discord.js": "^13.1.0",
     "dotenv": "^10.0.0",
+    "inquirer": "^8.1.2",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.12",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "ts-node": "^10.2.1",
     "typedi": "^0.10.0",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+    "yargs": "^17.1.1"
   },
   "husky": {
     "hooks": {
