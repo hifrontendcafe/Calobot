@@ -1,27 +1,12 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { REST } from '@discordjs/rest';
-import { Routes } from 'discord-api-types/v9';
-import { DiscordConfig } from '../config/discord.config';
+import { Command } from '../decorators/command.decorator';
+import { BaseCommand } from './Base.command';
 
-const commands = [
-	new SlashCommandBuilder().setName('ping').setDescription('Replies with pong!'),
-	new SlashCommandBuilder().setName('server').setDescription('Replies with server info!'),
-	new SlashCommandBuilder().setName('user').setDescription('Replies with user info!'),
-]
-	.map(command => command.toJSON());
+@Command({ name: 'faq' })
+class FaqCommand extends BaseCommand {
 
-const rest = new REST({ version: '9' }).setToken(DiscordConfig.Bot.TOKEN);
-
-(async () => {
-	try {
-		await rest.put(
-			Routes.applicationGuildCommands(DiscordConfig.Client.APP_ID, DiscordConfig.Client.GUILD_ID),
-			{ body: commands },
-		);
-
-		console.log('Successfully registered application commands.');
+	execute() {
+		return `Podes ver las preguntas frecuentes en: \n https://frontend.cafe/faqs`;
 	}
-	catch (error) {
-		console.error(error);
-	}
-})();
+}
+
+export default new FaqCommand();

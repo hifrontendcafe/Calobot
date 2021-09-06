@@ -1,0 +1,11 @@
+import { Command } from '../decorators/command.decorator';
+import { BaseCommand } from './Base.command';
+
+@Command({ name:'##command_name##' })
+class MentorshipCommand extends BaseCommand {
+	execute() {
+		return '##class_name## command, run with ##command_name##';
+	}
+}
+
+export default new ##class_name##Command();

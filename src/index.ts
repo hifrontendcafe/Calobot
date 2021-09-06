@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 // Require the necessary discord.js classes
 import { Client, Intents } from 'discord.js';
 import { DiscordConfig } from './config/discord.config';

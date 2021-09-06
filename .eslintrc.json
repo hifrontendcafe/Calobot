@@ -86,10 +86,6 @@
 			"always"
 		],
 		"prefer-const": "error",
-		"quotes": [
-			"error",
-			"single"
-		],
 		"semi": [
 			"error",
 			"always"
