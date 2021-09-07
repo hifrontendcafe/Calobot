@@ -1,11 +1,8 @@
 import 'reflect-metadata';
-// Require the necessary discord.js classes
-import { Client, Intents } from 'discord.js';
 import { DiscordConfig } from './config/discord.config';
 import { Events } from './events';
-
+import { client } from './client/client.instance';
 // Create a new client instance
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
 // When the client is ready, run this code (only once)
 client?.user?.setStatus('online');
@@ -15,7 +12,7 @@ client.once('ready', () => {
 });
 
 // Register of events with client
-Events(client).forEach((evt) => evt);
+Events.forEach((evt) => evt);
 
 // Login to Discord with your client's token
 client.login(DiscordConfig.Bot.TOKEN);
