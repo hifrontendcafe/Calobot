@@ -4,7 +4,6 @@ import { UserUtils } from '../utils/user.utils';
 import { RolesUtils } from '../utils/roles.utils';
 @Command({ name: 'mentee' })
 class MentorshipCommand extends BaseCommand {
-
 	async execute() {
 		const [userMention] = this.options.args;
 
@@ -40,13 +39,12 @@ class MentorshipCommand extends BaseCommand {
 		}
 	}
 
-	buildMessage(message?: {message: string, delete: boolean}) {
+	buildMessage(message?: { message: string; delete: boolean }) {
 		const [userMention, time, channel] = this.options.args;
 
 		if (message) {
 			return message;
 		}
-
 
 		if (!time && !channel) {
 			return {
@@ -57,14 +55,18 @@ class MentorshipCommand extends BaseCommand {
 
 		if (time && !channel) {
 			return {
-				message: `Hola ${userMention}, ${UserUtils.getUserId(this.options.message.author)} te espera en ${time} ${Number(time) > 1 ? 'minutos' : 'minuto'} <:fecfan:756224742771654696>`,
+				message: `Hola ${userMention}, ${UserUtils.getUserId(this.options.message.author)} te espera en ${time} ${
+					Number(time) > 1 ? 'minutos' : 'minuto'
+				} <:fecfan:756224742771654696>`,
 				delete: false,
 			};
 		}
 
 		if (time && channel) {
 			return {
-				message: `Hola ${userMention}, ${UserUtils.getUserId(this.options.message.author)} te espera en ${time} ${Number(time) > 1 ? 'minutos' : 'minuto'} te espera en la sala de voz de ${channel} <:fecfan:756224742771654696>`,
+				message: `Hola ${userMention}, ${UserUtils.getUserId(this.options.message.author)} te espera en ${time} ${
+					Number(time) > 1 ? 'minutos' : 'minuto'
+				} te espera en la sala de voz de ${channel} <:fecfan:756224742771654696>`,
 				delete: false,
 			};
 		}

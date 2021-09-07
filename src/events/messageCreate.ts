@@ -3,7 +3,7 @@ import { CommandsExecute } from '../commands';
 import { TCommand } from '../commands/Base.command';
 
 export function messageCreate(): void {
-	client.on('messageCreate', async message => {
+	client.on('messageCreate', async (message) => {
 		if (message.author.bot) return;
 
 		const args = message.content.split(' ').splice(1);
@@ -16,7 +16,7 @@ export function messageCreate(): void {
 					command.options = <TCommand>{ message, args };
 					const commandExecute = await command.execute();
 
-					await message.channel.send(commandExecute.message).then(msg => {
+					await message.channel.send(commandExecute.message).then((msg) => {
 						if (commandExecute.delete) {
 							setTimeout(() => {
 								msg.delete();
@@ -24,8 +24,8 @@ export function messageCreate(): void {
 						}
 					});
 				} catch (error) {
-					console.error("Invalid command", error.message);
-					await message.channel.send(error.message).then(msg => {
+					console.error('Invalid command', error.message);
+					await message.channel.send(error.message).then((msg) => {
 						setTimeout(() => {
 							msg.delete();
 						}, 3000);
