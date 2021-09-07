@@ -6,6 +6,7 @@ const argv = yargs(hideBin(process.argv)).argv;
 const templates = {
 	commandName: 'command_name',
 	className: 'class_name',
+	prefix: 'prefix',
 };
 
 // capitalize
@@ -17,6 +18,7 @@ const capitalize = (s) => {
 const args = {
 	class: capitalize(argv['class']),
 	cmd: argv['cmd'],
+	prefix: argv['pre'],
 };
 
 const outDir = 'src/commands/';
@@ -36,14 +38,23 @@ async function generate() {
 		const baseFile = await readFile('src/lib/command/template.command.example', 'utf-8');
 		const cmdReg = new RegExp(templates.commandName, 'g');
 		const classReg = new RegExp(templates.className, 'g');
+		const prefixReg = new RegExp(templates.prefix, 'g');
+
 		const newFile = baseFile
 			.replaceAll(cmdReg, args.cmd)
 			.replaceAll(classReg, args.class);
+
+		if (args.prefix) {
+			newFile.replaceAll(prefixReg, args.prefix);
+		}
 
 		console.log(`Generating ${outDir}${args.cmd}.command.ts`);
 		await writeFile(`${outDir}${args.class.toLowerCase()}.command.ts`, newFile, 'utf-8');
 		console.log('Done');
 		console.log(`New command generated: ${outDir}${args.class.toLowerCase()}.command.ts`);
+		if (args.prefix) {
+			console.log(`Prefix: ${args.prefix}`);
+		}
 	} catch (error) {
 		console.error(error);
 	}

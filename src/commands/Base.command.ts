@@ -41,6 +41,10 @@ export class BaseCommand {
     execute() {
     	throw new Error("Method not implemented.");
     }
+
+    validations() {
+    	throw new Error("Method not implemented.");
+    }
 }
 
 export type TCommand = {

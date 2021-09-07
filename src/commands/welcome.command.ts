@@ -1,10 +1,10 @@
 import { Command } from '../decorators/command.decorator';
 import { BaseCommand } from './Base.command';
 
-@Command({ name: 'welcome' })
+@Command({ name: 'welcome', prefix: "!" })
 class WelcomeCommand extends BaseCommand {
 	execute() {
-		return 'Welcome command, run with welcome';
+		return { message: 'Welcome command, run with welcome', delete: false };
 	}
 }
 
