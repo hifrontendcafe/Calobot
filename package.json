@@ -8,7 +8,7 @@
     "build": "tsc",
     "prestart": "npm run build",
     "start": "node .",
-    "dev": "nodemon",
+    "dev": "nodemon -L",
     "clearDistDirectory": "rimraf dist",
     "migrate": "npm run typeorm migration:run",
     "syncDb": "npm run typeorm schema:sync",
