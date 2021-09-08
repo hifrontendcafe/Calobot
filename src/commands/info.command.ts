@@ -1,23 +1,34 @@
 import { Command } from '../decorators/command.decorator';
+import { CommandResponse } from '../utils/command.utils';
 import { CommandError, ErrorMessages } from '../utils/error.utils';
 import { UserUtils } from '../utils/user.utils';
 import { BaseCommand } from './Base.command';
 
 @Command({ name: 'info' })
 class InfoCommand extends BaseCommand {
-	execute() {
+	execute(): CommandResponse {
 		const [user, option] = this.options.args;
-		this.validations();
-
-		return {
+		if (user === 'help') {
+			return this.validations();
+		}
+		this.options.message.delete();
+		return new CommandResponse({
 			message: `Info command, run with info`,
-			delete: false,
-		};
+		});
 	}
 
 	validations() {
 		const [user, option] = this.options.args;
 		const validOptions = ['m', 'q', 'help'];
+
+		/**
+		 * Como no se le paso un usuario en el primer parametro,
+		 * entonces, help es el 2do parametro y reemplaza a options
+		 */
+		if (user === 'help') {
+			return this.help();
+		}
+
 		if (!UserUtils.isUser(user)) {
 			throw new CommandError({ message: ErrorMessages.User.NotValid });
 		}
@@ -25,6 +36,12 @@ class InfoCommand extends BaseCommand {
 		if (!validOptions.includes(option)) {
 			throw new CommandError({ message: ErrorMessages.Info.ArgNotValid(option) });
 		}
+	}
+
+	help() {
+		return new CommandResponse({
+			message: `Todos los comandos de info`,
+		});
 	}
 }
 

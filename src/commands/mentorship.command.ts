@@ -3,9 +3,10 @@ import { BaseCommand } from './Base.command';
 import { UserUtils } from '../utils/user.utils';
 import { RolesUtils } from '../utils/roles.utils';
 import { CommandError, ErrorMessages } from '../utils/error.utils';
+import { CommandResponse } from '../utils/command.utils';
 @Command({ name: 'mentee' })
 class MentorshipCommand extends BaseCommand {
-	async execute() {
+	execute(): CommandResponse {
 		const [userMention] = this.options.args;
 
 		this.options.message.delete();
@@ -40,36 +41,38 @@ class MentorshipCommand extends BaseCommand {
 		}
 	}
 
-	buildMessage(message?: { message: string; delete: boolean }) {
+	buildMessage(message?: CommandResponse): CommandResponse {
 		const [userMention, time, channel] = this.options.args;
 
 		if (message) {
-			return message;
+			return new CommandResponse({
+				message: message.message,
+				delete: message.delete,
+			});
 		}
 
 		if (!time && !channel) {
-			return {
+			return new CommandResponse({
 				message: `Rol Mentee agregado a ${userMention}`,
 				delete: true,
-			};
+				deleteAfter: 3,
+			});
 		}
 
 		if (time && !channel) {
-			return {
+			return new CommandResponse({
 				message: `Hola ${userMention}, ${UserUtils.getUserId(this.options.message.author)} te espera en ${time} ${
 					Number(time) > 1 ? 'minutos' : 'minuto'
 				} <:fecfan:756224742771654696>`,
-				delete: false,
-			};
+			});
 		}
 
 		if (time && channel) {
-			return {
+			return new CommandResponse({
 				message: `Hola ${userMention}, ${UserUtils.getUserId(this.options.message.author)} te espera en ${time} ${
 					Number(time) > 1 ? 'minutos' : 'minuto'
 				} te espera en la sala de voz de ${channel} <:fecfan:756224742771654696>`,
-				delete: false,
-			};
+			});
 		}
 	}
 }

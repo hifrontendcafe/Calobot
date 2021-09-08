@@ -1,15 +1,30 @@
 import { MessageUtils } from './message.utils';
-
+type TCommandError = {
+	message: string;
+	delete?: boolean;
+	deleteAfter?: number;
+};
 export class CommandError extends Error {
-	time: number;
 	/**
-	 * @param {string} message The error message
-	 * @param {number} time Time in seconds to delete the error message
+	 * @param {string} message - Error message to send
 	 */
-	constructor({ message, time = 3 }: { message: string; time?: number }) {
-		super(message);
+	message: string;
+	/**
+	 * @param {boolean} delete - Whether or not to delete the error message
+	 */
+	delete?: boolean;
+
+	/**
+	 * @param {number} deleteAfter - Time in seconds to delete the error message
+	 */
+	deleteAfter: number;
+
+	constructor(options: TCommandError) {
+		super(options.message);
 		this.name = 'CommandError';
-		this.time = time * 1000;
+		this.delete = options.delete || true;
+		const deleteTime = (options.deleteAfter || 5) * 1000;
+		this.deleteAfter = deleteTime;
 	}
 }
 
@@ -24,7 +39,7 @@ export const ErrorMessages = {
 		UserNotValid: 'Por favor, etiquetar al usuario al que desea agregar/quitar el rol Mentee',
 	},
 	Info: {
-		ArgNotValid: (arg: string) => `Argumento no válido: ${arg} \nPara más información usar
+		ArgNotValid: (arg: string) => `Argumento no válido: ${arg || ''} \nPara más información usar
 		${MessageUtils.withBacktick('>info help', 3)}`,
 	},
 };
