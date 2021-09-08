@@ -2,6 +2,7 @@ import { Command } from '../decorators/command.decorator';
 import { BaseCommand } from './Base.command';
 import { UserUtils } from '../utils/user.utils';
 import { RolesUtils } from '../utils/roles.utils';
+import { CommandError, ErrorMessages } from '../utils/error.utils';
 @Command({ name: 'mentee' })
 class MentorshipCommand extends BaseCommand {
 	async execute() {
@@ -27,15 +28,15 @@ class MentorshipCommand extends BaseCommand {
 		const [user] = this.options.args;
 
 		if (!UserUtils.isUser(user)) {
-			throw new Error("Usuario no válido, por favor etiquetar a un usuario de discord con '@'");
+			throw new CommandError({ message: ErrorMessages.User.NotValid });
 		}
 
 		if (!UserUtils.isMentor(this.options.message)) {
-			throw new Error('No tienes el rol Mentors');
+			throw new CommandError({ message: ErrorMessages.Role.RoleNotValid('Mentor') });
 		}
 
 		if (!user) {
-			throw new Error('Por favor, etiquetar al usuario al que desea agregar/quitar el rol Mentee');
+			throw new CommandError({ message: ErrorMessages.Mentorship.UserNotValid });
 		}
 	}
 

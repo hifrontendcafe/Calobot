@@ -1,7 +1,7 @@
 import { Command } from '../decorators/command.decorator';
 import { BaseCommand } from './Base.command';
 
-@Command({ name: 'command_name'set_prefix })
+@Command({ name: 'command_name' })
 class class_nameCommand extends BaseCommand {
 	execute() {
 		return {

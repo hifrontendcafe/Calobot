@@ -38,23 +38,15 @@ async function generate() {
 		const baseFile = await readFile('src/lib/command/template.command.example', 'utf-8');
 		const cmdReg = new RegExp(templates.commandName, 'g');
 		const classReg = new RegExp(templates.className, 'g');
-		const prefixReg = new RegExp(templates.prefix, 'g');
 
 		const newFile = baseFile
 			.replaceAll(cmdReg, args.cmd)
 			.replaceAll(classReg, args.class);
 
-		if (args.prefix) {
-			newFile.replaceAll(prefixReg, args.prefix);
-		}
-
 		console.log(`Generating ${outDir}${args.cmd}.command.ts`);
 		await writeFile(`${outDir}${args.class.toLowerCase()}.command.ts`, newFile, 'utf-8');
 		console.log('Done');
 		console.log(`New command generated: ${outDir}${args.class.toLowerCase()}.command.ts`);
-		if (args.prefix) {
-			console.log(`Prefix: ${args.prefix}`);
-		}
 	} catch (error) {
 		console.error(error);
 	}
