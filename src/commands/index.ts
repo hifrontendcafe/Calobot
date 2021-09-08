@@ -1,5 +1,5 @@
 import { readdir } from 'fs/promises';
-const exceptions = ['index.ts', 'Base.command.ts'];
+const exceptions = ['index.ts', 'Base.command.ts', 'poll.command.ts'];
 export const CommandsExecute = [];
 // Load all commands in the commands folder and exclude files in the exceptions array
 readdir('./src/commands').then((files) => {

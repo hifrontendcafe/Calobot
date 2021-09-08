@@ -21,6 +21,6 @@
 	],
 	"types": [
 		"node",
-		"reflect-metadata"
+		"reflect-metadata",
 	]
 }
