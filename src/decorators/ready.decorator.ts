@@ -1,20 +1,11 @@
-import { DiscordConfig } from '../config/discord.config';
-
-interface CommandArgs {
-	name?: string;
-	prefix?: string;
-}
-
-export interface CommandData {
-	prefix: string;
+export interface ReadyData {
 	name: string;
 	method: Function;
 }
 
-export const CommandExecute = new Map();
-export const PrefixStore = new Set();
+export const ReadyExecute = [];
 
-export function Command({ name = '', prefix = DiscordConfig.Bot.PREFIX }: CommandArgs = {} ) {
+export function Ready() {
 	/**
 	 * @param {Object} target - The class Object
 	 * @param {string} propertyKey - The name method
@@ -23,19 +14,13 @@ export function Command({ name = '', prefix = DiscordConfig.Bot.PREFIX }: Comman
 	return function(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
 		let originalMethod = descriptor.value;
 
-		if (name === "") {
-			name = propertyKey;
-		}
-		let commandData: CommandData = {
-			prefix: prefix,
-			name: name,
+		let readyData: ReadyData = {
+			name: propertyKey,
 			method: originalMethod.bind(target)
 		}
 
 		// register the command data in a map structure
-		CommandExecute.set(prefix + name, commandData);
-		// register the prefix
-		PrefixStore.add(prefix);
+		ReadyExecute.push(readyData);
 
 		// wrapping the original method
 		descriptor.value = function (...args: any[]) {

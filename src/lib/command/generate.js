@@ -35,7 +35,7 @@ async function generate() {
 			throw new Error("Command name not provided");
 		}
 
-		const baseFile = await readFile('src/lib/command/template.command.example', 'utf-8');
+		const baseFile = await readFile('src/lib/command/template.command.example.new', 'utf-8');
 		const cmdReg = new RegExp(templates.commandName, 'g');
 		const classReg = new RegExp(templates.className, 'g');
 
