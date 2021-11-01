@@ -12,7 +12,9 @@ export function messageCreate(): void {
 		const args = utils.getArgs();
 		for (const command of CommandsExecute) {
 			if (!utils.startPrefix(command)) continue;
+
 			const commandName = utils.getCommand(command);
+
 			if (command && command.name === commandName) {
 				try {
 					command.options = <TCommand>{ message, args };

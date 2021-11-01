@@ -43,12 +43,10 @@ class MentorshipCommand extends BaseCommand {
 
 	buildMessage(message?: CommandResponse): CommandResponse {
 		const [userMention, time, channel] = this.options.args;
+		const userAuthor = UserUtils.getUserId(this.options.message.author);
 
 		if (message) {
-			return new CommandResponse({
-				message: message.message,
-				delete: message.delete,
-			});
+			return new CommandResponse({ ...message });
 		}
 
 		if (!time && !channel) {
@@ -61,7 +59,7 @@ class MentorshipCommand extends BaseCommand {
 
 		if (time && !channel) {
 			return new CommandResponse({
-				message: `Hola ${userMention}, ${UserUtils.getUserId(this.options.message.author)} te espera en ${time} ${
+				message: `Hola ${userMention}, ${userAuthor} te espera en ${time} ${
 					Number(time) > 1 ? 'minutos' : 'minuto'
 				} <:fecfan:756224742771654696>`,
 			});
@@ -69,7 +67,7 @@ class MentorshipCommand extends BaseCommand {
 
 		if (time && channel) {
 			return new CommandResponse({
-				message: `Hola ${userMention}, ${UserUtils.getUserId(this.options.message.author)} te espera en ${time} ${
+				message: `Hola ${userMention}, ${userAuthor} te espera en ${time} ${
 					Number(time) > 1 ? 'minutos' : 'minuto'
 				} te espera en la sala de voz de ${channel} <:fecfan:756224742771654696>`,
 			});
