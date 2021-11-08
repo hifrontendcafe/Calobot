@@ -1,4 +1,7 @@
-import { Client as Context,	Message } from 'discord.js';
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable no-empty-function */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Client as Context, Message } from 'discord.js';
 import { Command, Ready } from '../decorators';
 
 class ExampleCommand {
@@ -10,4 +13,3 @@ class ExampleCommand {
 }
 
 export default new ExampleCommand();
-

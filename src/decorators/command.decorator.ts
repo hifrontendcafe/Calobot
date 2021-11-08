@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { DiscordConfig } from '../config/discord.config';
 
 interface CommandArgs {
@@ -14,23 +15,23 @@ export interface CommandData {
 export const CommandExecute = new Map();
 export const PrefixStore = new Set();
 
-export function Command({ name = '', prefix = DiscordConfig.Bot.PREFIX }: CommandArgs = {} ) {
+export function Command({ name = '', prefix = DiscordConfig.Bot.PREFIX }: CommandArgs = {}) {
 	/**
 	 * @param {Object} target - The class Object
 	 * @param {string} propertyKey - The name method
 	 * @param {PropertyDescriptor} - Defined the function method
 	 */
-	return function(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-		let originalMethod = descriptor.value;
+	return function(target: unknown, propertyKey: string, descriptor: PropertyDescriptor) {
+		const originalMethod = descriptor.value;
 
-		if (name === "") {
+		if (name === '') {
 			name = propertyKey;
 		}
-		let commandData: CommandData = {
+		const commandData: CommandData = {
 			prefix: prefix,
 			name: name,
-			method: originalMethod.bind(target)
-		}
+			method: originalMethod.bind(target),
+		};
 
 		// register the command data in a map structure
 		CommandExecute.set(prefix + name, commandData);
@@ -38,8 +39,8 @@ export function Command({ name = '', prefix = DiscordConfig.Bot.PREFIX }: Comman
 		PrefixStore.add(prefix);
 
 		// wrapping the original method
-		descriptor.value = function (...args: any[]) {
+		descriptor.value = function(...args: unknown[]) {
 			return originalMethod.apply(this, args);
-		}
+		};
 	};
 }
