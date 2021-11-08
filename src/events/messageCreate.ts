@@ -1,34 +1,45 @@
 import { client } from '../client/client.instance';
-import { CommandsExecute } from '../commands';
-import { TCommand } from '../commands/Base.command';
-import { CommandResponse, CommandUtils } from '../utils/command.utils';
+import { CommandExecute, CommandData, PrefixStore } from '../decorators/command.decorator';
 import { CommandError } from '../utils/error.utils';
 
 export function messageCreate(): void {
 	client.on('messageCreate', async (message) => {
-		if (message.author.bot) return;
+		if (message.author.bot)
+			return;
 
-		const utils = new CommandUtils(message);
-		const args = utils.getArgs();
-		for (const command of CommandsExecute) {
-			if (!utils.startPrefix(command)) continue;
-			const commandName = utils.getCommand(command);
-			if (command && command.name === commandName) {
-				try {
-					command.options = <TCommand>{ message, args };
-					const commandExecute: CommandResponse = await command.execute();
+		// iterate in all saved prefix	
+		for (const prefix of PrefixStore) {
+			if(!message.content.startsWith(<string>prefix))
+				continue;
+			
+			const commandName = message.content.split(' ', 2).join(' ');
+			let command: CommandData;
 
-					await utils.sendMessage(commandExecute);
-				} catch (e) {
-					const error = <CommandError>e;
-					console.error(error.name, error.message);
-					await message.channel.send(error.message).then((msg) => {
-						setTimeout(() => {
-							msg.delete();
-						}, error.deleteAfter);
-					});
-				}
+			if (CommandExecute.has(commandName)) {
+				// get the command and subcommand
+				command = CommandExecute.get(commandName);
+			} else if(CommandExecute.has(commandName.split(' ')[0])) {
+				// get the command
+				command = CommandExecute.get(commandName.split(' ')[0]);
+			} else {
+				// Command not found!
+				message.channel.send(`Command \`${commandName.split(' ')[0]}\` not found!`)
+					.then(m => console.log(`${m.content}`))
+					.catch(console.error);
+				return;
 			}
+			
+			try {
+				// Ejecute the method
+				await command.method(client, message);
+			} catch (err) {
+				const error = <CommandError>err;
+				console.error(error.name, error.message);
+				await message.channel.send(error.message).then((msg) => {
+					setTimeout(() => msg.delete(), error.deleteAfter);
+				});
+			}
+			return;
 		}
 	});
 }

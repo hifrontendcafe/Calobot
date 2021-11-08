@@ -1,0 +1,13 @@
+import { Client as Context,	Message } from 'discord.js';
+import { Command, Ready } from '../decorators';
+
+class class_nameCommand {
+	@Ready()
+	async ready(ctx: Context) {}
+
+	@Command()
+	command_name(ctx: Context, msg: Message) {}
+}
+
+export default new class_nameCommand();
+
