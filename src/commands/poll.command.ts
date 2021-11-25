@@ -1,7 +1,7 @@
 import { Command } from '../decorators/command.decorator';
 import { BaseCommand } from './Base.command';
 
-@Command({ name: 'poll' })
+// @Command({ name: 'poll' })
 class PollCommand extends BaseCommand {
 	async execute() {
 		const pollArgs = this.options.args;

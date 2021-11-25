@@ -19,7 +19,11 @@ class ReminderCommand {
 	@Command({ name: 'reminder list' })
 	async list(_ctx: Context, msg: Message) {
 		try {
-			msg.channel.send('I am reminder list');
+			_ctx.users.fetch(msg.author.id).then((user) => {
+				user.send('Hola').catch((err) => {
+					console.log(err);
+				});
+			});
 		} catch (error) {
 			console.error(error);
 		}

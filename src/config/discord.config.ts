@@ -13,4 +13,9 @@ export const DiscordConfig = {
 	OAuth: {
 		CLIENT_SECRET: process.env.DISCORD_OAUTH_CLIENT_SECRET,
 	},
+	Channels: {
+		Mentorships: {
+			notifications: process.env.DISCORD_CHANNEL_MENTORSHIPS_NOTIFICATIONS,
+		},
+	},
 };

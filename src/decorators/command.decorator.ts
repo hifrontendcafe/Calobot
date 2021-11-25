@@ -14,7 +14,6 @@ export interface CommandData {
 
 export const CommandExecute = new Map();
 export const PrefixStore = new Set();
-
 export function Command({ name = '', prefix = DiscordConfig.Bot.PREFIX }: CommandArgs = {}) {
 	/**
 	 * @param {Object} target - The class Object

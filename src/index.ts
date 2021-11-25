@@ -3,7 +3,7 @@ import { DiscordConfig } from './config/discord.config';
 import { Events } from './events';
 import { client } from './client/client.instance';
 import { InitCommands } from './commands';
-
+import server from './server';
 // When the client is ready, run this code (only once)
 client?.user?.setStatus('online');
 
@@ -19,3 +19,7 @@ Events.forEach((evt) => evt);
 
 // Login to Discord with your client's token
 client.login(DiscordConfig.Bot.TOKEN);
+
+server.listen(3000, () => {
+	console.log('Server started on port 3000');
+});

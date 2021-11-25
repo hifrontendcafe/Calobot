@@ -4,7 +4,7 @@ import { UserUtils } from '../utils/user.utils';
 import { RolesUtils } from '../utils/roles.utils';
 import { CommandError, ErrorMessages } from '../utils/error.utils';
 import { CommandResponse } from '../utils/command.utils';
-@Command({ name: 'mentee' })
+// @Command({ name: 'mentee' })
 class MentorshipCommand extends BaseCommand {
 	execute(): CommandResponse {
 		const [userMention] = this.options.args;

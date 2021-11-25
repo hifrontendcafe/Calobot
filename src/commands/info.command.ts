@@ -4,7 +4,7 @@ import { CommandError, ErrorMessages } from '../utils/error.utils';
 import { UserUtils } from '../utils/user.utils';
 import { BaseCommand } from './Base.command';
 
-@Command({ name: 'info' })
+// @Command({ name: 'info' })
 class InfoCommand extends BaseCommand {
 	execute(): CommandResponse {
 		const [user, option] = this.options.args;
