@@ -1,4 +1,5 @@
 import { Message, Client, MessageEmbed } from 'discord.js';
+import { MessageEmbedCustom } from '../@types';
 import { client } from '../client/client.instance';
 
 export class MessageUtils {
@@ -37,5 +38,26 @@ export class MessageUtils {
 			console.log(error);
 			throw error;
 		}
+	}
+
+	buildEmbed(options: MessageEmbedCustom) {
+		const embed = new MessageEmbed();
+
+		if (options.author) embed.setAuthor(options.author.name, options.author.iconURL, options.author.url);
+		if (options.color) embed.setColor(options.color || 'DEFAULT');
+		if (options.description) embed.setDescription(options.description);
+		if (options.footer) embed.setFooter(options.footer.text, options.footer.iconURL);
+		if (options.image) embed.setImage(options.image);
+		if (options.thumbnail) embed.setThumbnail(options.thumbnail);
+		if (options.title) embed.setTitle(options.title);
+		if (options.URL) embed.setURL(options.URL);
+
+		embed.setTimestamp();
+
+		if (options.mentions) {
+			const users = options.mentions.map(mention => `<@${mention}>`).join(' ');
+			this.sendMessageToChannel(users, options.channel).then(msg => msg.delete());
+		}
+		return embed;
 	}
 }

@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { MessageController } from '../controllers';
 import MentorshipRoutes from './mentorship.routes';
 const router = Router();
 
@@ -10,5 +11,6 @@ router.get('/', (req, res) => {
 });
 
 router.use('/mentorship', MentorshipRoutes);
+router.post('/message/embed', MessageController.sendEmbed);
 
 export default router;

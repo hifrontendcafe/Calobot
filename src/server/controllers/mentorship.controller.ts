@@ -1,3 +1,5 @@
+import { MessageEmbedCustom } from './../../@types/index.d';
+import { MessageUtils } from './../../utils/message.utils';
 import { MentorshipUtil } from './../../utils/mentorship.util';
 import { UserUtils } from './../../utils/user.utils';
 import { Request, Response } from 'express';
@@ -28,12 +30,6 @@ class MentorShipController {
 		const mentorshipUtil = new MentorshipUtil();
 		await mentorshipUtil.mentorshipReminder(mentorUser, menteeUser, hour);
 		res.send({ msg: 'success' });
-	}
-
-	// reminder to mentor
-	reminder(req: Request, res: Response) {
-		const { mentor, mentee } = req.body;
-		res.send({ mentor, mentee });
 	}
 }
 
