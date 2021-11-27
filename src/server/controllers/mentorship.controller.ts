@@ -1,9 +1,10 @@
-import { MessageEmbedCustom } from './../../@types/index.d';
-import { MessageUtils } from './../../utils/message.utils';
+import { Client } from 'discord.js';
+import { DiscordConfig } from './../../config/discord.config';
 import { MentorshipUtil } from './../../utils/mentorship.util';
 import { UserUtils } from './../../utils/user.utils';
 import { Request, Response } from 'express';
 import { client } from '../../client/client.instance';
+import { cli } from 'winston/lib/winston/config';
 
 class MentorShipController {
 	async successMentorshipAssignment(req: Request, res: Response) {
@@ -34,14 +35,12 @@ class MentorShipController {
 
 	async addRoleMentee(req: Request, res: Response) {
 		try {
-			const { id_user, id_role } = req.body;
-			// const menteeUser = await UserUtils.getUser(id_user);
-			const menteeUser = await client.guilds.cache.get(process.env.GUILD_ID).members.cache.find(m => m.id === id_user);
-			const menteeRole = client.guilds.cache.find(rol => rol.id === id_role);
-			// const menteeRole = RolesUtils.findRoleByName('Mentee');   // <<<----
-			console.log(menteeUser, menteeRole);
-			console.log(client.guilds.cache);
+			const { user, role } = req.body;
+			const menteeUser = await UserUtils.getUser(user);
 
+			await client.guilds.cache.get(DiscordConfig.Client.GUILD_ID).members.edit(menteeUser, {
+				roles: [role],
+			});
 			res.send({ msg: 'success' });
 		} catch (error) {
 			console.log(error);
