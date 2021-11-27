@@ -37,11 +37,24 @@ class MentorShipController {
 		try {
 			const { user, role } = req.body;
 			const menteeUser = await UserUtils.getUser(user);
-
-			await client.guilds.cache.get(DiscordConfig.Client.GUILD_ID).members.edit(menteeUser, {
-				roles: [role],
-			});
+			const member = await client.guilds.cache.get(DiscordConfig.Client.GUILD_ID).members.fetch(menteeUser);
+			member.roles.add(role);
 			res.send({ msg: 'success' });
+
+		} catch (error) {
+			console.log(error);
+			res.send({ msg: 'error' });
+		}
+	}
+
+	async removeRoleMentee(req: Request, res: Response) {
+		try {
+			const { user, role } = req.body;
+			const menteeUser = await UserUtils.getUser(user);
+			const member = await client.guilds.cache.get(DiscordConfig.Client.GUILD_ID).members.fetch(menteeUser);
+			member.roles.remove(role);
+			res.send({ msg: 'success' });
+
 		} catch (error) {
 			console.log(error);
 			res.send({ msg: 'error' });
