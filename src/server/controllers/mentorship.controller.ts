@@ -1,11 +1,12 @@
-import { MessageEmbedCustom } from './../../@types/index.d';
-import { MessageUtils } from './../../utils/message.utils';
+import { Client } from 'discord.js';
+import { DiscordConfig } from './../../config/discord.config';
 import { MentorshipUtil } from './../../utils/mentorship.util';
 import { UserUtils } from './../../utils/user.utils';
 import { Request, Response } from 'express';
+import { client } from '../../client/client.instance';
+import { cli } from 'winston/lib/winston/config';
 
 class MentorShipController {
-
 	async successMentorshipAssignment(req: Request, res: Response) {
 		try {
 			const { id_mentor, id_mentee } = req.body;
@@ -30,6 +31,34 @@ class MentorShipController {
 		const mentorshipUtil = new MentorshipUtil();
 		await mentorshipUtil.mentorshipReminder(mentorUser, menteeUser, hour);
 		res.send({ msg: 'success' });
+	}
+
+	async addRoleMentee(req: Request, res: Response) {
+		try {
+			const { user, role } = req.body;
+			const menteeUser = await UserUtils.getUser(user);
+			const member = await client.guilds.cache.get(DiscordConfig.Client.GUILD_ID).members.fetch(menteeUser);
+			member.roles.add(role);
+			res.send({ msg: 'success' });
+
+		} catch (error) {
+			console.log(error);
+			res.send({ msg: 'error' });
+		}
+	}
+
+	async removeRoleMentee(req: Request, res: Response) {
+		try {
+			const { user, role } = req.body;
+			const menteeUser = await UserUtils.getUser(user);
+			const member = await client.guilds.cache.get(DiscordConfig.Client.GUILD_ID).members.fetch(menteeUser);
+			member.roles.remove(role);
+			res.send({ msg: 'success' });
+
+		} catch (error) {
+			console.log(error);
+			res.send({ msg: 'error' });
+		}
 	}
 }
 
