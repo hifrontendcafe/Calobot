@@ -1,4 +1,4 @@
-import { Message, User } from 'discord.js';
+import { GuildMember, GuildMemberEditData, Message, User } from 'discord.js';
 
 export class RolesUtils {
 	private message: Message;
@@ -42,5 +42,23 @@ export class RolesUtils {
 	static findRoleByName(message: Message, role: string) {
 		const rolesUtils = new RolesUtils(message, role);
 		return rolesUtils.getRole();
+	}
+
+	static async setRole(user: GuildMember, role) {
+		try {
+			await user.roles.add(role);
+		} catch (error) {
+			console.log(error);
+			throw new Error("cannot assign role to user");
+		}
+	}
+
+	static async removeRole(user: GuildMember, role) {
+		try {
+			await user.roles.remove(role);
+		} catch (error) {
+			console.log(error);
+			throw new Error("cannot remove role from user");
+		}
 	}
 }

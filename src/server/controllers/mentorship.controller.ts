@@ -1,18 +1,15 @@
-import { Client } from 'discord.js';
-import { DiscordConfig } from './../../config/discord.config';
+import { RolesUtils } from './../../utils/roles.utils';
 import { MentorshipUtil } from './../../utils/mentorship.util';
 import { UserUtils } from './../../utils/user.utils';
 import { Request, Response } from 'express';
-import { client } from '../../client/client.instance';
-import { cli } from 'winston/lib/winston/config';
 
 class MentorShipController {
 	async successMentorshipAssignment(req: Request, res: Response) {
 		try {
-			const { id_mentor, id_mentee } = req.body;
+			const { id_mentor: idMentor, id_mentee: idMentee } = req.body;
 
-			const menteeUser = await UserUtils.getUser(id_mentee);
-			const mentorUser = await UserUtils.getUser(id_mentor);
+			const menteeUser = await UserUtils.getUser(idMentee);
+			const mentorUser = await UserUtils.getUser(idMentor);
 			const mentorshipUtil = new MentorshipUtil();
 			await mentorshipUtil.successMentorshipAssignment(menteeUser, mentorUser);
 
@@ -24,9 +21,9 @@ class MentorShipController {
 	}
 
 	async reminderMentorship(req: Request, res: Response) {
-		const { id_mentor, id_mentee, hour } = req.body;
-		const menteeUser = await UserUtils.getUser(id_mentee);
-		const mentorUser = await UserUtils.getUser(id_mentor);
+		const { id_mentor: idMentor, id_mentee: idMentee, hour } = req.body;
+		const menteeUser = await UserUtils.getUser(idMentee);
+		const mentorUser = await UserUtils.getUser(idMentor);
 
 		const mentorshipUtil = new MentorshipUtil();
 		await mentorshipUtil.mentorshipReminder(mentorUser, menteeUser, hour);
@@ -36,11 +33,9 @@ class MentorShipController {
 	async addRoleMentee(req: Request, res: Response) {
 		try {
 			const { user, role } = req.body;
-			const menteeUser = await UserUtils.getUser(user);
-			const member = await client.guilds.cache.get(DiscordConfig.Client.GUILD_ID).members.fetch(menteeUser);
-			member.roles.add(role);
+			const member = await UserUtils.getMemberGuild(user);
+			await RolesUtils.setRole(member, role);
 			res.send({ msg: 'success' });
-
 		} catch (error) {
 			console.log(error);
 			res.send({ msg: 'error' });
@@ -50,11 +45,9 @@ class MentorShipController {
 	async removeRoleMentee(req: Request, res: Response) {
 		try {
 			const { user, role } = req.body;
-			const menteeUser = await UserUtils.getUser(user);
-			const member = await client.guilds.cache.get(DiscordConfig.Client.GUILD_ID).members.fetch(menteeUser);
-			member.roles.remove(role);
+			const member = await UserUtils.getMemberGuild(user);
+			await RolesUtils.removeRole(member, role);
 			res.send({ msg: 'success' });
-
 		} catch (error) {
 			console.log(error);
 			res.send({ msg: 'error' });
