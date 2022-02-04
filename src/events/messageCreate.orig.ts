@@ -1,4 +1,4 @@
-import { client } from '../client/client.instance';
+/* import { client } from '../client/client.instance';
 import { CommandsExecute } from '../commands';
 import { TCommand } from '../commands/Base.command';
 import { CommandResponse, CommandUtils } from '../utils/command.utils';
@@ -32,3 +32,4 @@ export function messageCreate(): void {
 		}
 	});
 }
+ */

@@ -2,7 +2,7 @@
   "name": "matebot_js",
   "version": "1.0.0",
   "description": "- Bienvenida a los usuarios (newMembers.py) - Reminder(scheduler) - FAQ's (faq.py)",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "prebuild": "npm run clearDistDirectory",
     "build": "tsc",

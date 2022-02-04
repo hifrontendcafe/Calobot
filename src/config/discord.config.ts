@@ -4,6 +4,7 @@ export const DiscordConfig = {
 	Bot: {
 		TOKEN: process.env.DISCORD_BOT_TOKEN,
 		PREFIX: process.env.DISCORD_BOT_PREFIX,
+		PORT: process.env.BOT_SERVER_PORT,
 	},
 	Client: {
 		APP_ID: process.env.DISCORD_APP_ID,

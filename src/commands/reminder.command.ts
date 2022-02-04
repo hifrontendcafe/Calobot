@@ -18,6 +18,7 @@ class ReminderCommand {
 
 	@Command({ name: 'reminder list' })
 	async list(_ctx: Context, msg: Message) {
+		console.log(msg.author);
 		try {
 			_ctx.users.fetch(msg.author.id).then((user) => {
 				user.send('Hola').catch((err) => {

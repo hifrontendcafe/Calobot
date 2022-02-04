@@ -14,5 +14,5 @@
 - Crear archivo con las variables de entorno con `cp .env.template .env`
 - Instalamos las dependencias con `npm install`
 - En caso de subir a un entorno productivo ejecutamos `npm run build` con la variable de entorno `APP_ENV=production`
-- Para trabajar con nuestro proyecto ejecutamos `docker-compose up -d` con la variable de entorno `APP_ENV=development`
+- Para trabajar con nuestro proyecto ejecutamos `docker-compose build && docker-compose up -d` con la variable de entorno `APP_ENV=development`
 - Las variables de entorno las encontramos en el archivo `.env`, que creamos anteriormente

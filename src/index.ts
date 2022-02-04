@@ -20,6 +20,6 @@ Events.forEach((evt) => evt);
 // Login to Discord with your client's token
 client.login(DiscordConfig.Bot.TOKEN);
 
-server.listen(3000, () => {
+server.listen(DiscordConfig.Bot.PORT, () => {
 	console.log('Server started on port 3000');
 });
