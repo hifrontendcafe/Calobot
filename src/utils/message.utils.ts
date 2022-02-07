@@ -1,5 +1,5 @@
 import { Message, Client, MessageEmbed } from 'discord.js';
-import { MessageEmbedCustom } from '../@types';
+import { MessageEmbedCustom, MessageEmbedUser } from '../@types';
 import { client } from '../client/client.instance';
 
 export class MessageUtils {
@@ -17,13 +17,15 @@ export class MessageUtils {
 		return start.padEnd(start.length + length, '`');
 	}
 
-	async sendMessageToUser(content: string, userId: string) {
+	async sendMessageToUser(content: MessageEmbed | string, userId: string) {
 		try {
 			const user = await this._client.users.fetch(userId);
-			user.send(content);
+			if (typeof content === 'string') {
+				return user.send(content);
+			}
+			return user.send({ embeds: [content] });
 		} catch (error) {
-			console.log(error);
-			throw error;
+			throw new Error(error);
 		}
 	}
 
@@ -35,14 +37,12 @@ export class MessageUtils {
 			}
 			return channel.isText() && channel.send({ embeds: [content] });
 		} catch (error) {
-			console.log(error);
-			throw error;
+			throw new Error(error);
 		}
 	}
 
-	buildEmbed(options: MessageEmbedCustom) {
+	buildEmbed(options: MessageEmbedCustom | MessageEmbedUser) {
 		const embed = new MessageEmbed();
-
 		if (options.author) embed.setAuthor(options.author.name, options.author.iconURL, options.author.url);
 		if (options.color) embed.setColor(options.color || 'DEFAULT');
 		if (options.description) embed.setDescription(options.description);
@@ -55,8 +55,8 @@ export class MessageUtils {
 		embed.setTimestamp();
 
 		if (options.mentions) {
-			const users = options.mentions.map(mention => `<@${mention}>`).join(' ');
-			this.sendMessageToChannel(users, options.channel).then(msg => msg.delete());
+			const users = options.mentions.map((mention) => `<@${mention}>`).join(' ');
+			this.sendMessageToChannel(users, options.channel).then((msg) => msg.delete());
 		}
 		return embed;
 	}

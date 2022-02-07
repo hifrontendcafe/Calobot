@@ -12,5 +12,6 @@ router.get('/', (req, res) => {
 
 router.use('/mentorship', MentorshipRoutes);
 router.post('/message/embed', MessageController.sendEmbed);
+router.post('/message/user/:user', MessageController.sendMessage);
 
 export default router;
